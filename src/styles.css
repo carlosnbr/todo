@@ -14,7 +14,7 @@ aside {
     flex: 0 0 280px;
     background-color: #c7c9cf;
     font-weight: 700;
-    padding: 20px;
+    padding: 40px 20px 20px;
 }
 
 main {
@@ -22,11 +22,16 @@ main {
     padding: 20px;
 }
 
+.sidebar__section-title {
+    margin-bottom: 5px;
+}
+
 .sidebar__nav-item {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 5px 0;
+    margin-left: 5px;
 }
 
 .sidebar__nav-item a {
@@ -34,9 +39,14 @@ main {
     align-items: center;
     text-decoration: none;
     color: inherit;
+    flex: 1;
 }
 
 .sidebar__nav-item-icon {
-    height: 28px;
+    height: 25px;
     width: auto;
+}
+
+#filtersSection {
+    padding-bottom: 15px;
 }
