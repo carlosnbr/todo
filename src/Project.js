@@ -7,7 +7,6 @@ export default class Project {
     icon = '';
     tasks = [];
     constructor(title, icon) {
-        this.id = id;
         this.title = title;
         this.icon = icon;
         this.tasks = tasks;
