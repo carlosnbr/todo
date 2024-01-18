@@ -1,8 +1,9 @@
 import Project from "./Project.js";
+import defaultProjectIcon from "./assets/default-project-icon.svg";
 
 export default class DataStore {
     constructor() {
-        this.projects = [];
+        this.projects = [new Project("New Project 1", defaultProjectIcon)];
     }
 
     addProject(project) {

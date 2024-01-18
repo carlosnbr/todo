@@ -10,7 +10,7 @@ export default class Task {
     checklist = [];
     isCompleted = false;
 
-    constructor(title, description, dueDate, priority, notes, checklist) {
+    constructor(title, description, dueDate, priority = "low", notes, checklist = []) {
         this.title = title;
         this.description = description;
         this.dueDate = new Date(dueDate);

@@ -4,41 +4,48 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-
-export const entry = "./src/index.js";
-export const output = {
+export default {
+  mode: 'development',
+  entry: "./src/index.js",
+  output: {
     filename: "bundle.js",
     path: resolve(__dirname, "dist"),
     clean: true,
-};
-
-export const moduleRules = {
+  },
+  module: {
     rules: [
-        {
-            test: /\.html$/i,
-            loader: 'html-loader',
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+        options: {
+          sources: {
+            list: [
+              {
+                attribute: 'src',
+                type: 'src',
+              },
+              {
+                attribute: 'href',
+                type: 'src',
+              },
+            ],
+          },
         },
-        {
-            test: /\.css$/i,
-            use: ["style-loader", "css-loader"],
-        },
-        {
-            test: /\.(png|svg|jpg|jpeg|gif)$/i,
-            type: "asset/resource",
-        },
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
     ],
-};
-
-export const plugins = [
+  },
+  plugins: [
     new HtmlWebpackPlugin({
-        template: "./src/index.html",
-        inject: "body"
+      template: "./src/index.html",
+      inject: "body"
     })
-];
-
-export default {
-    entry,
-    output,
-    module: moduleRules,
-    plugins
+  ],
 };
