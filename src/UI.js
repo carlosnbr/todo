@@ -3,8 +3,8 @@
 export default class UI {
     constructor(dataStore) {
         this.dataStore = dataStore;
-        this.taskContainer = document.getElementById("task-container"); // Replace with your actual container element
-        this.projectContainer = document.getElementById("project-container"); // Replace with your actual container element
+        this.projectContainer = document.getElementById("projects-list");
+        this.taskContainer = document.getElementById("task-list");
     }
 
     render() {
@@ -18,25 +18,31 @@ export default class UI {
     renderProjects() {
         const projects = this.dataStore.getAllProjects();
         // Clear existing projects in the UI
-        this.projectContainer.innerHTML = "";
+        // this.projectContainer.innerHTML = "";
 
         // Render each project
         projects.forEach(project => {
             const projectElement = document.createElement("div");
             projectElement.innerHTML = `
-                <h2>${project.getTitle()}</h2>
-                <img src="${project.getIcon()}" alt="Project Icon">
+                <div class="sidebar__nav-item">
+                    <a href="#">
+                        <img
+                            src="${project.getIcon()}"
+                            alt="Inbox Icon"
+                            class="sidebar__nav-item-icon"
+                        />
+                        <span class="sidebar__nav-item-title">${project.getTitle()}</span>
+                    </a>
+                </div>
             `;
 
             // Add click event to handle project selection or other interactions
-            projectElement.addEventListener("click", () => {
-                // Handle project click event
+            projectElement.querySelector('a').addEventListener("click", () => {
+                console.log("this works")
             });
 
             this.projectContainer.appendChild(projectElement);
         });
-
-        console.log("Rendering projects...");
     }
 
     renderTasks() {

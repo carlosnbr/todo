@@ -47,6 +47,10 @@ main {
     width: auto;
 }
 
-#filtersSection {
+.sidebar__nav-item-title {
+    margin-left: 10px;
+}
+
+#filters-section {
     padding-bottom: 15px;
 }
