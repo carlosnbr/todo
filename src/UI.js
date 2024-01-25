@@ -9,56 +9,60 @@ export default class UI {
 
     render() {
         this.renderProjects();
-        this.renderTasks();
-        // Add other rendering logic as needed
-
-        console.log("Projects rendered successfully.");
+        // this.renderTasks();
     }
 
     renderProjects() {
         const projects = this.dataStore.getAllProjects();
-        // Clear existing projects in the UI
-        // this.projectContainer.innerHTML = "";
 
-        // Render each project
         projects.forEach(project => {
             const projectElement = document.createElement("div");
-            projectElement.innerHTML = `
-                <div class="sidebar__nav-item">
-                    <a href="#">
-                        <img
-                            src="${project.getIcon()}"
-                            alt="Inbox Icon"
-                            class="sidebar__nav-item-icon"
-                        />
-                        <span class="sidebar__nav-item-title">${project.getTitle()}</span>
-                    </a>
-                </div>
-            `;
+            projectElement.className = "sidebar__nav-item";
 
-            // Add click event to handle project selection or other interactions
-            projectElement.querySelector('a').addEventListener("click", () => {
-                console.log("this works")
+            const anchorElement = document.createElement("a");
+            anchorElement.href = "#";
+            anchorElement.dataset.projectId = project.getId();
+
+            const imgElement = document.createElement("img");
+            imgElement.src = project.getIcon();
+            imgElement.alt = "Inbox Icon";
+            imgElement.className = "sidebar__nav-item-icon";
+
+            const spanElement = document.createElement("span");
+            spanElement.className = "sidebar__nav-item-title";
+            spanElement.textContent = project.getTitle();
+
+            anchorElement.appendChild(imgElement);
+            anchorElement.appendChild(spanElement);
+
+            anchorElement.addEventListener("click", event => {
+                event.preventDefault();
+
+                const projectId = event.currentTarget.dataset.projectId;
+                const project = this.dataStore.projects.find(project => {
+                    return project.id === projectId;
+                });
+
+                this.renderTasks(project.tasks);
             });
 
+            projectElement.appendChild(anchorElement);
             this.projectContainer.appendChild(projectElement);
         });
     }
 
-    renderTasks() {
-        const tasks = this.dataStore.getAllTasks();
-        // Clear existing tasks in the UI
+    renderTasks(tasks) {
         this.taskContainer.innerHTML = "";
 
         // Render each task
         tasks.forEach(task => {
             const taskElement = document.createElement("div");
             taskElement.innerHTML = `
-                <h3>${task.getTitle()}</h3>
-                <p>${task.getDescription()}</p>
-                <p>Due Date: ${task.getFormattedDueDate()}</p>
-                <!-- Add other task details as needed -->
-            `;
+                    <h3>${task.getTitle()}</h3>
+                    <p>${task.getDescription()}</p>
+                    <p>Due Date: ${task.getFormattedDueDate()}</p>
+                    <!-- Add other task details as needed -->
+                `;
 
             // Add click event to handle task selection or other interactions
             taskElement.addEventListener("click", () => {
@@ -67,8 +71,6 @@ export default class UI {
 
             this.taskContainer.appendChild(taskElement);
         });
-
-        console.log("Rendering tasks...");
     }
 
     // Add other methods for handling user interactions, updating UI, etc.

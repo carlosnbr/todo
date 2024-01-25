@@ -6,13 +6,13 @@ import defaultProjectIcon from "./assets/default-project-icon.svg";
 import Task from "./Task.js";
 import Project from "./Project.js";
 
-// Initialize DataStore and UI
 const dataStore = new DataStore();
-const ui = new UI(dataStore); // Assuming a UI module that interacts with DataStore
+const ui = new UI(dataStore);
 
-// Sample code to add a project and task
 const project = new Project("Personal", defaultProjectIcon);
-console.log(project);
+const project1 = new Project("Personal 1", defaultProjectIcon);
+const project2 = new Project("Personal 2", defaultProjectIcon);
+
 const task = new Task(
     "Complete assignment",
     "Description",
@@ -22,9 +22,20 @@ const task = new Task(
     []
 );
 project.addTask(task);
+
+const task2 = new Task(
+    "New Assignment",
+    "Description fffff",
+    "2024-01-15",
+    "low",
+    "Notes wwwww",
+    []
+);
+project.addTask(task2);
 dataStore.addProject(project);
+dataStore.addProject(project1);
+dataStore.addProject(project2);
 
 // Render UI
 ui.render();
-
-console.log("test");
+// ui.renderTasks(project)
