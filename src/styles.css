@@ -8,6 +8,7 @@
 body {
     display: flex;
     height: 100vh;
+    background-color: #f4f4f4;
 }
 
 aside {
@@ -18,8 +19,7 @@ aside {
 }
 
 main {
-    flex: 1;
-    padding: 20px;
+    width: 100%;
 }
 
 .sidebar__section-title {
@@ -53,4 +53,50 @@ main {
 
 #filters-section {
     padding-bottom: 15px;
+}
+
+h3 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+p {
+    color: #555;
+    margin: 5px 0;
+}
+
+#task-list {
+    margin-top: 20px;
+}
+
+.task-row {
+    display: flex;
+    align-items: center; /* Align checkbox and task details vertically */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.due-date {
+    color: #ff5c5c;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.project-information {
+    display: flex;
+    flex-direction: column;
+    flex-basis: clamp(400px, 40%, 1200px);
+    margin: 20px 100px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-checkbox {
+    margin-right: 10px; /* Adjust spacing between checkbox and task details */
 }

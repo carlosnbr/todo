@@ -58,10 +58,11 @@ export default class UI {
         tasks.forEach(task => {
             const taskElement = document.createElement("div");
             taskElement.innerHTML = `
+                <div>
                     <h3>${task.getTitle()}</h3>
                     <p>${task.getDescription()}</p>
                     <p>Due Date: ${task.getFormattedDueDate()}</p>
-                    <!-- Add other task details as needed -->
+                </div>
                 `;
 
             // Add click event to handle task selection or other interactions
