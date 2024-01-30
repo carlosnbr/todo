@@ -98,5 +98,51 @@ p {
 }
 
 .task-checkbox {
-    margin-right: 10px; /* Adjust spacing between checkbox and task details */
+    position: relative;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    appearance: none;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+
+    /* Hide the default checkbox visually */
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Hover styles */
+    &:hover {
+        background-color: #4ece8336; /* Background color on hover */
+        color: #fff; /* Icon color when checked */
+
+        &::before {
+            background-image: url('../src/assets/checked-icon.svg'); /* Set SVG as background image */
+            background-size: cover; /* Make sure the SVG covers the entire checkbox */
+        }
+    }
+
+    /* Style for checked state */
+    &:checked {
+        background-color: #3da368; /* Fill color when checked */
+        border-color: #348053; /* Border color when checked */
+        color: #fff; /* Icon color when checked */
+
+        /* Change only the color of the SVG icon when checked */
+        &::before {
+            background-image: url('../src/assets/checked-icon.svg'); /* Set SVG as background image */
+            background-size: cover; /* Make sure the SVG covers the entire checkbox */
+            filter: brightness(0) invert(1); /* Invert the colors of the SVG except for white */
+        }
+    }
 }
+
+
+
