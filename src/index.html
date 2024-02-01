@@ -5,7 +5,7 @@
         <title>To-Do App</title>
     </head>
     <body>
-        <aside class="sidebar" id="inbox">
+        <aside class="sidebar">
             <div id="filters-section">
                 <h3 class="sidebar__section-title">Filters</h3>
                 <div id="inbox-filter" class="sidebar__nav-item">
@@ -45,10 +45,13 @@
         </aside>
         <main>
             <div class="project-information">
-                <h2 class="project-name">Project Name</h2>
+                <div class="project-information__header">
+                    <h2 class="project-name">Project Name</h2>
+                    <button class="add-task-button">+ Add Task</button>
+                </div>
                 <div id="task-list">
                     <div class="task-row">
-                        <input type="checkbox" class="task-checkbox">
+                        <input type="checkbox" class="task-checkbox" />
                         <div class="task-details">
                             <h3>Complete assignment</h3>
                             <p>Description</p>
@@ -56,7 +59,7 @@
                         </div>
                     </div>
                     <div class="task-row">
-                        <input type="checkbox" class="task-checkbox">
+                        <input type="checkbox" class="task-checkbox" />
                         <div class="task-details">
                             <h3>Complete assignment</h3>
                             <p>Description</p>
@@ -64,7 +67,7 @@
                         </div>
                     </div>
                     <div class="task-row">
-                        <input type="checkbox" class="task-checkbox">
+                        <input type="checkbox" class="task-checkbox" />
                         <div class="task-details">
                             <h3>Complete assignment</h3>
                             <p>Description</p>
@@ -72,7 +75,7 @@
                         </div>
                     </div>
                     <div class="task-row">
-                        <input type="checkbox" class="task-checkbox">
+                        <input type="checkbox" class="task-checkbox" />
                         <div class="task-details">
                             <h3>Complete assignment</h3>
                             <p>Description</p>

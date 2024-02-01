@@ -13,13 +13,18 @@ body {
 
 aside {
     flex: 0 0 280px;
-    background-color: #c7c9cf;
+    background-color: #8f67bd2a;
     font-weight: 700;
     padding: 40px 20px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 5px auto;
 }
 
 main {
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .sidebar__section-title {
@@ -89,16 +94,20 @@ p {
 .project-information {
     display: flex;
     flex-direction: column;
-    flex-basis: clamp(400px, 40%, 1200px);
-    margin: 20px 100px;
-    background-color: #fff;
+    flex-basis: clamp(400px, 50%, 1200px);
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.project-information__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .task-checkbox {
+    background-color: #57e79323;
     position: relative;
+    bottom: 24px;
     margin-right: 10px;
     width: 20px;
     height: 20px;
@@ -118,31 +127,47 @@ p {
         height: 100%;
     }
 
-    /* Hover styles */
     &:hover {
-        background-color: #4ece8336; /* Background color on hover */
-        color: #fff; /* Icon color when checked */
+        background-color: #4ece8359;
+        color: #fff;
 
         &::before {
-            background-image: url('../src/assets/checked-icon.svg'); /* Set SVG as background image */
-            background-size: cover; /* Make sure the SVG covers the entire checkbox */
+            background-image: url('../src/assets/checked-icon.svg');
+            background-size: cover;
         }
     }
 
-    /* Style for checked state */
     &:checked {
-        background-color: #3da368; /* Fill color when checked */
-        border-color: #348053; /* Border color when checked */
-        color: #fff; /* Icon color when checked */
+        background-color: #3da368;
+        border-color: #348053;
+        color: #fff;
 
-        /* Change only the color of the SVG icon when checked */
         &::before {
-            background-image: url('../src/assets/checked-icon.svg'); /* Set SVG as background image */
-            background-size: cover; /* Make sure the SVG covers the entire checkbox */
-            filter: brightness(0) invert(1); /* Invert the colors of the SVG except for white */
+            background-image: url('../src/assets/checked-icon.svg');
+            background-size: cover;
+            filter: brightness(0) invert(1);
         }
     }
 }
 
+.project-name {
+    font-size: 30px;
+    color: #333;
+}
 
+.add-task-button {
+    background-color: #00000000;
+    color: #612eb3;
+    font-size: 24px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.3s, font-size 0.3s;
+}
+
+.add-task-button:hover {
+    color: #7a42d4;
+    font-size: 25px;
+}
 

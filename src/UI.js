@@ -43,6 +43,8 @@ export default class UI {
                     return project.id === projectId;
                 });
 
+                document.querySelector(".add-task-button").dataset.projectId =
+                    projectId;
                 this.renderTasks(project.tasks);
             });
 
@@ -58,21 +60,26 @@ export default class UI {
         tasks.forEach(task => {
             const taskElement = document.createElement("div");
             taskElement.innerHTML = `
-                <div>
-                    <h3>${task.getTitle()}</h3>
-                    <p>${task.getDescription()}</p>
-                    <p>Due Date: ${task.getFormattedDueDate()}</p>
+                <div class="task-row">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-details">
+                        <h3>${task.getTitle()}</h3>
+                        <p>${task.getDescription()}</p>
+                        <p class="due-date">${task.getFormattedDueDate()}</p>
+                    </div>
                 </div>
                 `;
-
-            // Add click event to handle task selection or other interactions
-            taskElement.addEventListener("click", () => {
-                // Handle task click event
-            });
-
             this.taskContainer.appendChild(taskElement);
         });
     }
 
-    // Add other methods for handling user interactions, updating UI, etc.
+    bindEvents() { //TODO: Need to open a modal when clicking the add task button, then capture the needed info to create a new task, we already have the project ID in the code below
+        const addTaskButton = document.querySelector(".add-task-button");
+        addTaskButton.addEventListener("click", event => {
+            const projectId = event.currentTarget.dataset.projectId;
+                const project = this.dataStore.projects.find(project => {
+                    return project.id === projectId;
+                });
+        })
+    }
 }
