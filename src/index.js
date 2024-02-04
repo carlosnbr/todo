@@ -1,3 +1,5 @@
+// index.js
+
 import UI from "./UI.js";
 import DataStore from "./DataStore.js";
 import "./styles.css";
@@ -32,11 +34,15 @@ const task2 = new Task(
     []
 );
 project.addTask(task2);
+
 dataStore.addProject(project);
 dataStore.addProject(project1);
 dataStore.addProject(project2);
 
 // Render UI
 ui.render();
-ui.bindEvents();
-// ui.renderTasks(project)
+
+// Additional improvements
+document.addEventListener("DOMContentLoaded", () => {
+    ui.bindEvents();
+});

@@ -6,16 +6,13 @@ export default class Task {
     description = "";
     dueDate = null;
     priority = "low";
-    checklist = [];
     isCompleted = false;
 
-    constructor(title, description, dueDate, priority = "low", notes, checklist = []) {
+    constructor(title, description, dueDate, priority = "low") {
         this.title = title;
         this.description = description;
         this.dueDate = new Date(dueDate);
         this.priority = priority;
-        this.notes = notes;
-        this.checklist = checklist;
     }
 
     getId() {
@@ -40,10 +37,6 @@ export default class Task {
 
     getPriority() {
         return this.priority;
-    }
-
-    getChecklist() {
-        return this.checklist;
     }
 
     getIsCompleted() {
@@ -71,33 +64,7 @@ export default class Task {
         }
     }
 
-    setNotes(newNotes) {
-        this.notes = newNotes;
-    }
-
     toggleCompletion() {
         this.isCompleted = !this.isCompleted;
-    }
-
-    addChecklistItem(description) {
-        const newItem = { description, isCompleted: false };
-        this.checklist.push(newItem);
-    }
-
-    removeChecklistItem(index) {
-        if (index >= 0 && index < this.checklist.length) {
-            this.checklist.splice(index, 1);
-        } else {
-            throw new Error("Invalid index.");
-        }
-    }
-
-    toggleChecklistItemCompletion(index) {
-        if (index >= 0 && index < this.checklist.length) {
-            this.checklist[index].isCompleted =
-                !this.checklist[index].isCompleted;
-        } else {
-            throw new Error("Invalid index.");
-        }
     }
 }

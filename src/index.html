@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>To-Do App</title>
     </head>
     <body>
-        <aside class="sidebar">
+        <aside class="sidebar" role="navigation">
             <div id="filters-section">
                 <h3 class="sidebar__section-title">Filters</h3>
                 <div id="inbox-filter" class="sidebar__nav-item">
-                    <a href="#">
+                    <a href="#" aria-label="Filter Inbox">
                         <img
                             src="../src/assets/inbox-icon.svg"
                             alt="Inbox Icon"
@@ -19,7 +19,7 @@
                     </a>
                 </div>
                 <div id="today-filter" class="sidebar__nav-item">
-                    <a href="#">
+                    <a href="#" aria-label="Filter Today">
                         <img
                             src="../src/assets/inbox-icon.svg"
                             alt="Inbox Icon"
@@ -29,7 +29,7 @@
                     </a>
                 </div>
                 <div id="upcoming-filter" class="sidebar__nav-item">
-                    <a href="#">
+                    <a href="#" aria-label="Filter Upcoming">
                         <img
                             src="../src/assets/inbox-icon.svg"
                             alt="Inbox Icon"
@@ -44,16 +44,18 @@
             </div>
         </aside>
         <main>
-            <div class="project-information">
+            <div id="project-information" class="project-information">
                 <div class="project-information__header">
                     <h2 class="project-name">Project Name</h2>
-                    <button id="add-task-button" class="add-task-button">+ Add Task</button>
+                    <button id="add-task-button" class="add-task-button">
+                        + Add Task
+                    </button>
                 </div>
                 <div id="task-list">
                     <div class="task-row">
                         <input type="checkbox" class="task-checkbox" />
                         <div class="task-details">
-                            <h3>Complete assignment</h3>
+                            <h3>Complete assignment 2</h3>
                             <p>Description</p>
                             <p class="due-date">Tue Jan 30 2024</p>
                         </div>
@@ -62,38 +64,46 @@
             </div>
             <div id="add-task-modal" class="modal" role="dialog">
                 <div class="modal-content" role="document">
-                    <button id="close-modal-button">&times;</button>
+                    <button id="close-modal-button"  aria-label="Close">&times;</button>
                     <h2>Add Task</h2>
-                    <form id="add-task-form">
+                    <form id="add-task-form" autocomplete="off">
                         <div>
-                            <label for="taskTitle">Task Name:</label>
-                            <input type="text" id="task-title" name="taskTitle" required>
+                            <label for="taskTitle">Title:</label>
+                            <input
+                                type="text"
+                                id="task-title"
+                                name="taskTitle"
+                                required
+                            />
                         </div>
                         <div>
-                            <label for="taskDescription">Task Name:</label>
-                            <input type="text" id="task-description" name="taskDescription" required>
+                            <label for="taskDescription">Description:</label>
+                            <input
+                                type="text"
+                                id="task-description"
+                                name="taskDescription"
+                            />
                         </div>
                         <div>
-                            <label for="taskDueDate">Task Name:</label>
-                            <input type="text" id="task-due-date" name="taskDueDate" required>
+                            <label for="taskDueDate">Due Date:</label>
+                            <input
+                                type="date"
+                                id="task-due-date"
+                                name="taskDueDate"
+                            />
                         </div>
                         <div>
-                            <label for="taskPriority">Task Name:</label>
-                            <input type="text" id="task-priority" name="taskPriority" required>
-                        </div>
-                        <div>
-                            <label for="taskChecklist">Task Name:</label>
-                            <input type="text" id="task-checklist" name="taskChecklist" required>
-                        </div>
-                        <div>
-                            <label for="taskIsCompleted">Task Name:</label>
-                            <input type="text" id="task-is-completed" name="taskIsCompleted" required>
+                            <label for="taskPriority">Priority:</label>
+                            <select id="task-priority" name="taskPriority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
                         </div>
                         <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>
-            
         </main>
     </body>
 </html>

@@ -1,4 +1,5 @@
 // UI.js
+import Task from "./Task.js";
 
 export default class UI {
     constructor(dataStore) {
@@ -43,8 +44,9 @@ export default class UI {
                     return project.id === projectId;
                 });
 
-                document.querySelector(".add-task-button").dataset.projectId =
-                    projectId;
+                document.getElementById(
+                    "project-information"
+                ).dataset.projectId = projectId;
                 this.renderTasks(project.tasks);
             });
 
@@ -89,18 +91,45 @@ export default class UI {
         const modal = document.getElementById("add-task-modal");
         const modalCloseButton = document.getElementById("close-modal-button");
 
-        addTaskButton.addEventListener("click", (event) => {
+        addTaskButton.addEventListener("click", event => {
             this.openAddTaskModal();
-            const projectId = event.currentTarget.dataset.projectId;
-            const project = this.dataStore.projects.find((project) => {
-                return project.id === projectId;
-            });
         });
-        
-        window.addEventListener("click", (event) => {
+
+        window.addEventListener("click", event => {
             if (event.target === modal || event.target === modalCloseButton) {
                 this.closeAddTaskModal();
+                document.getElementById("add-task-form").reset();
             }
         });
+
+        const newTaskSubmit = document.getElementById("add-task-form");
+        newTaskSubmit.addEventListener(
+            "submit",
+            function (event) {
+                event.preventDefault();
+
+                const title = document.getElementById("task-title").value;
+                const description =
+                    document.getElementById("task-description").value;
+                const dueDate = document.getElementById("task-due-date").value;
+                const priority = document.getElementById("task-priority").value;
+
+                const newTask = new Task(title, description, dueDate, priority);
+
+                const projectId = document.getElementById("project-information")
+                    .dataset.projectId;
+
+                const project = this.dataStore.findProject(projectId);
+
+                if (project) {
+                    project.addTask(newTask);
+                    document.getElementById("add-task-form").reset();
+                } else {
+                    console.error("Project not found.");
+                }
+                this.closeAddTaskModal();
+                this.renderTasks(project.tasks);
+            }.bind(this)
+        );
     }
 }
