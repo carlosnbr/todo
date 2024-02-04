@@ -38,4 +38,5 @@ dataStore.addProject(project2);
 
 // Render UI
 ui.render();
+ui.bindEvents();
 // ui.renderTasks(project)

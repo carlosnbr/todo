@@ -6,7 +6,6 @@ export default class Task {
     description = "";
     dueDate = null;
     priority = "low";
-    notes = "";
     checklist = [];
     isCompleted = false;
 
@@ -41,10 +40,6 @@ export default class Task {
 
     getPriority() {
         return this.priority;
-    }
-
-    getNotes() {
-        return this.notes;
     }
 
     getChecklist() {

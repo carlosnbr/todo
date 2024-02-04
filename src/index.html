@@ -47,7 +47,7 @@
             <div class="project-information">
                 <div class="project-information__header">
                     <h2 class="project-name">Project Name</h2>
-                    <button class="add-task-button">+ Add Task</button>
+                    <button id="add-task-button" class="add-task-button">+ Add Task</button>
                 </div>
                 <div id="task-list">
                     <div class="task-row">
@@ -58,32 +58,42 @@
                             <p class="due-date">Tue Jan 30 2024</p>
                         </div>
                     </div>
-                    <div class="task-row">
-                        <input type="checkbox" class="task-checkbox" />
-                        <div class="task-details">
-                            <h3>Complete assignment</h3>
-                            <p>Description</p>
-                            <p class="due-date">Tue Jan 30 2024</p>
-                        </div>
-                    </div>
-                    <div class="task-row">
-                        <input type="checkbox" class="task-checkbox" />
-                        <div class="task-details">
-                            <h3>Complete assignment</h3>
-                            <p>Description</p>
-                            <p class="due-date">Tue Jan 30 2024</p>
-                        </div>
-                    </div>
-                    <div class="task-row">
-                        <input type="checkbox" class="task-checkbox" />
-                        <div class="task-details">
-                            <h3>Complete assignment</h3>
-                            <p>Description</p>
-                            <p class="due-date">Tue Jan 30 2024</p>
-                        </div>
-                    </div>
                 </div>
             </div>
+            <div id="add-task-modal" class="modal" role="dialog">
+                <div class="modal-content" role="document">
+                    <button id="close-modal-button">&times;</button>
+                    <h2>Add Task</h2>
+                    <form id="add-task-form">
+                        <div>
+                            <label for="taskTitle">Task Name:</label>
+                            <input type="text" id="task-title" name="taskTitle" required>
+                        </div>
+                        <div>
+                            <label for="taskDescription">Task Name:</label>
+                            <input type="text" id="task-description" name="taskDescription" required>
+                        </div>
+                        <div>
+                            <label for="taskDueDate">Task Name:</label>
+                            <input type="text" id="task-due-date" name="taskDueDate" required>
+                        </div>
+                        <div>
+                            <label for="taskPriority">Task Name:</label>
+                            <input type="text" id="task-priority" name="taskPriority" required>
+                        </div>
+                        <div>
+                            <label for="taskChecklist">Task Name:</label>
+                            <input type="text" id="task-checklist" name="taskChecklist" required>
+                        </div>
+                        <div>
+                            <label for="taskIsCompleted">Task Name:</label>
+                            <input type="text" id="task-is-completed" name="taskIsCompleted" required>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+            
         </main>
     </body>
 </html>

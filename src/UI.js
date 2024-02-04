@@ -73,13 +73,34 @@ export default class UI {
         });
     }
 
-    bindEvents() { //TODO: Need to open a modal when clicking the add task button, then capture the needed info to create a new task, we already have the project ID in the code below
-        const addTaskButton = document.querySelector(".add-task-button");
-        addTaskButton.addEventListener("click", event => {
+    openAddTaskModal() {
+        const modal = document.getElementById("add-task-modal");
+        modal.style.display = "flex";
+    }
+
+    closeAddTaskModal() {
+        const modal = document.getElementById("add-task-modal");
+        modal.style.display = "none";
+    }
+
+    bindEvents() {
+        //TODO: Need to open a modal when clicking the add task button, then capture the needed info to create a new task, we already have the project ID in the code below
+        const addTaskButton = document.getElementById("add-task-button");
+        const modal = document.getElementById("add-task-modal");
+        const modalCloseButton = document.getElementById("close-modal-button");
+
+        addTaskButton.addEventListener("click", (event) => {
+            this.openAddTaskModal();
             const projectId = event.currentTarget.dataset.projectId;
-                const project = this.dataStore.projects.find(project => {
-                    return project.id === projectId;
-                });
-        })
+            const project = this.dataStore.projects.find((project) => {
+                return project.id === projectId;
+            });
+        });
+        
+        window.addEventListener("click", (event) => {
+            if (event.target === modal || event.target === modalCloseButton) {
+                this.closeAddTaskModal();
+            }
+        });
     }
 }
