@@ -85,20 +85,34 @@ export default class UI {
         modal.style.display = "none";
     }
 
+    openAddProjectModal() {
+        const modal = document.getElementById("add-project-modal");
+        modal.style.display = "flex";
+    }
+
+    closeAddProjectModal() {
+        const modal = document.getElementById("add-project-modal");
+        modal.style.display = "none";
+    }
+
     bindEvents() {
-        //TODO: Need to open a modal when clicking the add task button, then capture the needed info to create a new task, we already have the project ID in the code below
         const addTaskButton = document.getElementById("add-task-button");
-        const modal = document.getElementById("add-task-modal");
-        const modalCloseButton = document.getElementById("close-modal-button");
+        const taskModal = document.getElementById("add-task-modal");
+        const projectModal = document.getElementById("add-project-modal");
+        const taskModalCloseButton = document.getElementById("close-task-modal-button");
+        const projectModalCloseButton = document.getElementById("close-project-modal-button");
 
         addTaskButton.addEventListener("click", event => {
             this.openAddTaskModal();
         });
 
         window.addEventListener("click", event => {
-            if (event.target === modal || event.target === modalCloseButton) {
+            if (event.target === taskModal || event.target === taskModalCloseButton) {
                 this.closeAddTaskModal();
                 document.getElementById("add-task-form").reset();
+            } else if (event.target === projectModal || event.target === projectModalCloseButton) {
+                this.closeAddProjectModal();
+                document.getElementById("add-project-form").reset();
             }
         });
 
@@ -131,5 +145,10 @@ export default class UI {
                 this.renderTasks(project.tasks);
             }.bind(this)
         );
+
+        const addProjectButton = document.getElementById("add-project-button");
+        addProjectButton.addEventListener("click", event => {
+            this.openAddProjectModal();
+        });
     }
 }

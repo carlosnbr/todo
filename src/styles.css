@@ -28,6 +28,9 @@ main {
 }
 
 .sidebar__section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 5px;
 }
 
@@ -35,8 +38,13 @@ main {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 5px 0;
-    margin-left: 5px;
+    padding-left: 5px;
+    height: 35px;
+    border-radius: 10px;
+
+    &:hover {
+        background-color: #8f67bd2d;
+    }
 }
 
 .sidebar__nav-item a {
@@ -45,6 +53,7 @@ main {
     text-decoration: none;
     color: inherit;
     flex: 1;
+
 }
 
 .sidebar__nav-item-icon {
@@ -62,7 +71,6 @@ main {
 
 h3 {
     color: #333;
-    margin-bottom: 5px;
 }
 
 p {
@@ -76,7 +84,8 @@ p {
 
 .task-row {
     display: flex;
-    align-items: center; /* Align checkbox and task details vertically */
+    align-items: center;
+    justify-content: flex-start;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -107,7 +116,7 @@ p {
 .task-checkbox {
     background-color: #57e79323;
     position: relative;
-    bottom: 24px;
+    align-self: start;
     margin-right: 10px;
     width: 20px;
     height: 20px;
@@ -190,7 +199,31 @@ p {
     position: relative;
 }
 
-#close-modal-button {
+#close-task-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.add-project-button {
+    background-color: #00000000;
+    width: 25px;
+    color: #612eb3;
+    font-size: 24px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #8f67bd2d;
+    }
+}
+
+#close-project-modal-button {
     position: absolute;
     top: 10px;
     right: 10px;

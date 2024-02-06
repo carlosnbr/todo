@@ -39,9 +39,11 @@
                     </a>
                 </div>
             </div>
-            <div id="projects-list">
-                <h3 class="sidebar__section-title">Projects</h3>
+            <div class="sidebar__section-title">
+                <h3>Projects</h3>
+                <button id="add-project-button" class="add-project-button">+</button>
             </div>
+            <div id="projects-list"></div>
         </aside>
         <main>
             <div id="project-information" class="project-information">
@@ -62,9 +64,31 @@
                     </div>
                 </div>
             </div>
+            <div id="add-project-modal" class="modal" role="dialog">
+                <div class="modal-content" role="document">
+                    <button id="close-project-modal-button" aria-label="Close">
+                        &times;
+                    </button>
+                    <h2>Add Project</h2>
+                    <form id="add-project-form" autocomplete="off">
+                        <div>
+                            <label for="projectTitle">Title:</label>
+                            <input
+                                type="text"
+                                id="project-title"
+                                name="projectTitle"
+                                required
+                            />
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
             <div id="add-task-modal" class="modal" role="dialog">
                 <div class="modal-content" role="document">
-                    <button id="close-modal-button"  aria-label="Close">&times;</button>
+                    <button id="close-task-modal-button" aria-label="Close">
+                        &times;
+                    </button>
                     <h2>Add Task</h2>
                     <form id="add-task-form" autocomplete="off">
                         <div>
