@@ -44,6 +44,7 @@ export default class DataStore {
         const todayTasks = [];
 
         this.projects.forEach(project => {
+            console.log(project.getAllTasks())
             project.getAllTasks().forEach(task => {
                 const taskDueDate = task.dueDate;
                 if (

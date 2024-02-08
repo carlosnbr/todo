@@ -11,7 +11,7 @@ export default class Task {
     constructor(title, description, dueDate, priority = "low") {
         this.title = title;
         this.description = description;
-        this.dueDate = new Date(dueDate);
+        this.dueDate = new Date(dueDate + "T00:00:00");
         this.priority = priority;
     }
 
@@ -32,7 +32,13 @@ export default class Task {
     }
 
     getFormattedDueDate() {
-        return this.dueDate.toDateString(); // Example format: "Mon Jan 01 2024"
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const monthIndex = this.dueDate.getMonth();
+        const day = this.dueDate.getDate();
+        const year = this.dueDate.getFullYear();
+
+        return `${months[monthIndex]} ${day} ${year}`;
     }
 
     getPriority() {
