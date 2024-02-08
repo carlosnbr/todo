@@ -1,15 +1,14 @@
 import Task from "./Task.js"
 import { v4 as uuidv4 } from "uuid"
+import defaultProjectIcon from "./assets/default-project-icon.svg";
 
 export default class Project {
     id = uuidv4();
     title = '';
-    icon = '';
+    icon = defaultProjectIcon;
     tasks = [];
-    constructor(title, icon, tasks = []) {
+    constructor(title) {
         this.title = title;
-        this.icon = icon;
-        this.tasks = tasks;
     }
 
     getId() {
@@ -26,10 +25,6 @@ export default class Project {
 
     getIcon() {
         return this.icon;
-    }
-
-    setIcon(newIcon) {
-        this.icon = newIcon;
     }
 
     addTask(task) {

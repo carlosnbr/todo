@@ -1,5 +1,6 @@
 // UI.js
 import Task from "./Task.js";
+import Project from "./Project.js";
 
 export default class UI {
     constructor(dataStore) {
@@ -14,6 +15,7 @@ export default class UI {
     }
 
     renderProjects() {
+        this.projectContainer.innerHTML = "";
         const projects = this.dataStore.getAllProjects();
 
         projects.forEach(project => {
@@ -99,18 +101,28 @@ export default class UI {
         const addTaskButton = document.getElementById("add-task-button");
         const taskModal = document.getElementById("add-task-modal");
         const projectModal = document.getElementById("add-project-modal");
-        const taskModalCloseButton = document.getElementById("close-task-modal-button");
-        const projectModalCloseButton = document.getElementById("close-project-modal-button");
+        const taskModalCloseButton = document.getElementById(
+            "close-task-modal-button"
+        );
+        const projectModalCloseButton = document.getElementById(
+            "close-project-modal-button"
+        );
 
         addTaskButton.addEventListener("click", event => {
             this.openAddTaskModal();
         });
 
         window.addEventListener("click", event => {
-            if (event.target === taskModal || event.target === taskModalCloseButton) {
+            if (
+                event.target === taskModal ||
+                event.target === taskModalCloseButton
+            ) {
                 this.closeAddTaskModal();
                 document.getElementById("add-task-form").reset();
-            } else if (event.target === projectModal || event.target === projectModalCloseButton) {
+            } else if (
+                event.target === projectModal ||
+                event.target === projectModalCloseButton
+            ) {
                 this.closeAddProjectModal();
                 document.getElementById("add-project-form").reset();
             }
@@ -150,5 +162,21 @@ export default class UI {
         addProjectButton.addEventListener("click", event => {
             this.openAddProjectModal();
         });
+
+        const newProjectSubmit = document.getElementById("add-project-form");
+        newProjectSubmit.addEventListener(
+            "submit",
+            function (event) {
+                event.preventDefault();
+
+                const title = document.getElementById("project-title").value;
+                const newProject = new Project(title);
+
+                this.dataStore.addProject(newProject);
+                this.closeAddProjectModal();
+                this.renderTasks(newProject.tasks);
+                this.renderProjects();
+            }.bind(this)
+        );
     }
 }
