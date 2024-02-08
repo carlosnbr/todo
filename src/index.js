@@ -18,7 +18,7 @@ const project2 = new Project("Personal 2", defaultProjectIcon);
 const task = new Task(
     "Complete assignment",
     "Description",
-    "2024-01-31",
+    "2024-02-08",
     "high",
     "Notes",
     []

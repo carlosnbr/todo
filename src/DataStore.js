@@ -20,9 +20,7 @@ export default class DataStore {
     }
 
     findProject(projectId) {
-        return this.projects.find(
-            project => project.getId() === projectId
-        );
+        return this.projects.find(project => project.getId() === projectId);
     }
 
     updateProject(projectId, newTitle, newIcon) {
@@ -37,5 +35,27 @@ export default class DataStore {
 
     getAllProjects() {
         return this.projects;
+    }
+
+    getTodayTasks() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        console.log(today);
+        const todayTasks = [];
+
+        this.projects.forEach(project => {
+            project.getAllTasks().forEach(task => {
+                const taskDueDate = task.dueDate;
+                if (
+                    taskDueDate.getDate() === today.getDate() &&
+                    taskDueDate.getMonth() === today.getMonth() &&
+                    taskDueDate.getFullYear() === today.getFullYear()
+                ) {
+                    todayTasks.push(task);
+                }
+            });
+        });
+        console.log(todayTasks);
+        return todayTasks;
     }
 }

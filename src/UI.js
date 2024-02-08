@@ -178,5 +178,13 @@ export default class UI {
                 this.renderProjects();
             }.bind(this)
         );
+
+        const todayFilterButton = document.getElementById("today-filter");
+        todayFilterButton.addEventListener(
+            "click",
+            function (event) {
+                this.renderTasks(this.dataStore.getTodayTasks());
+            }.bind(this)
+        );
     }
 }
