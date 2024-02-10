@@ -8,10 +8,14 @@ export default class Task {
     priority = "low";
     isCompleted = false;
 
-    constructor(title, description, dueDate, priority = "low") {
+    constructor(title, description, dueDate = "", priority = "low") {
         this.title = title;
         this.description = description;
-        this.dueDate = new Date(dueDate + "T00:00:00");
+        if (dueDate.trim() === "") {
+            this.dueDate = null; // or any other default value you prefer
+        } else {
+            this.dueDate = new Date(dueDate + "T00:00:00");
+        }
         this.priority = priority;
     }
 
@@ -34,11 +38,20 @@ export default class Task {
     getFormattedDueDate() {
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const monthIndex = this.dueDate.getMonth();
-        const day = this.dueDate.getDate();
-        const year = this.dueDate.getFullYear();
 
-        return `${months[monthIndex]} ${day} ${year}`;
+        if (this.dueDate) {
+            // console.log(this.dueDate);
+            const monthIndex = this.dueDate.getMonth();
+            const day = this.dueDate.getDate();
+            const year = this.dueDate.getFullYear();
+
+            return `${months[monthIndex]} ${day} ${year}`;
+
+        } else {
+            console.log(this.dueDate);
+            return ""
+        }
+
     }
 
     getPriority() {

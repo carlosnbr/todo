@@ -133,6 +133,7 @@ export default class UI {
             "submit",
             function (event) {
                 event.preventDefault();
+                
 
                 const title = document.getElementById("task-title").value;
                 const description =
