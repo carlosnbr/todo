@@ -186,5 +186,13 @@ export default class UI {
                 this.renderTasks(this.dataStore.getTodayTasks());
             }.bind(this)
         );
+
+        const upcomingFilterButton = document.getElementById("upcoming-filter");
+        upcomingFilterButton.addEventListener(
+            "click",
+            function (event) {
+                this.renderTasks(this.dataStore.getUpcomingTasks());
+            }.bind(this)
+        );
     }
 }

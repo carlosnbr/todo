@@ -40,11 +40,9 @@ export default class DataStore {
     getTodayTasks() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        console.log(today);
         const todayTasks = [];
 
         this.projects.forEach(project => {
-            console.log(project.getAllTasks())
             project.getAllTasks().forEach(task => {
                 const taskDueDate = task.dueDate;
                 if (
@@ -56,7 +54,27 @@ export default class DataStore {
                 }
             });
         });
-        console.log(todayTasks);
         return todayTasks;
+    }
+
+    getUpcomingTasks() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+
+        const upcomingTasks = [];
+
+        this.projects.forEach(project => {
+            project.tasks.forEach(task => {
+                const taskDueDate = task.dueDate;
+                if (taskDueDate >= today && taskDueDate <= nextWeek) {
+                    upcomingTasks.push(task);
+                }
+            });
+        });
+
+        return upcomingTasks;
     }
 }
