@@ -63,15 +63,39 @@ export default class UI {
         // Render each task
         tasks.forEach(task => {
             const taskElement = document.createElement("div");
+            if (task.priority === "low") {
+                taskElement.classList.add("low-task-row");
+            } else if (task.priority === "medium") {
+                taskElement.classList.add("medium-task-row");
+            } else if (task.priority === "high") {
+                taskElement.classList.add("high-task-row");
+            } else {
+                taskElement.classList.add("neutral-task-row");
+            }
+            
             taskElement.innerHTML = `
-                <div class="task-row">
-                    <input type="checkbox" class="task-checkbox">
                     <div class="task-details">
-                        <h3>${task.getTitle()}</h3>
-                        <p>${task.getDescription()}</p>
-                        <p class="due-date">${task.getFormattedDueDate()}</p>
+                        <input type="checkbox" class="task-checkbox">
+                        <div>
+                            <h3>${task.getTitle()}</h3>
+                            <p>${task.getDescription()}</p>
+                            <p class="due-date">${task.getFormattedDueDate()}</p>
+                        </div>
+                        <div>
+                            <button class="edit-button">
+                                <img
+                                    src="../src/assets/checked-icon.svg"
+                                    alt=""
+                                />
+                            </button>
+                            <button class="delete-button">
+                                <img
+                                    src="../src/assets/checked-icon.svg"
+                                    alt=""
+                                />
+                            </button>
+                        </div>
                     </div>
-                </div>
                 `;
             this.taskContainer.appendChild(taskElement);
         });
@@ -133,7 +157,6 @@ export default class UI {
             "submit",
             function (event) {
                 event.preventDefault();
-                
 
                 const title = document.getElementById("task-title").value;
                 const description =
