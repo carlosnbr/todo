@@ -19,7 +19,7 @@ export default class DataStore {
         );
     }
 
-    findProject(projectId) {
+    getProject(projectId) {
         return this.projects.find(project => project.getId() === projectId);
     }
 

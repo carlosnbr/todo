@@ -88,81 +88,66 @@ p {
 
 .task-buttons {
     display: flex;
-    gap: 10px;
     align-self: flex-start;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-
-
 .task-buttons button {
     cursor: pointer;
     background: none;
     border: none;
+    border-radius: 15px;
     padding: 0;
-    width: 20px;
-    height: auto;
+    width: 40px;
+    height: 40px;
     background-size: cover;
     background-position: center;
+
+    &:hover {
+        background-color: #a0a0a02c;
+    }
 }
 
 .task-buttons button img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 60%;
+  max-height: 60%;
 }
 
-.low-task-row:hover .task-buttons {
-    display: flex;
-    opacity: 1;
-}
-
-.neutral-task-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.low-task-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #4a95b815;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.medium-task-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: #cfdd5415;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease-in-out;
-}
-
+.neutral-task-row,
+.low-task-row,
+.medium-task-row,
 .high-task-row {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    background-color: #e2585815;
+    justify-content: space-between;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 15px;
     margin-bottom: 10px;
     transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover .task-buttons {
+        display: flex;
+        opacity: 1;
+    }
+}
+
+.neutral-task-row {
+    background-color: #fff;
+}
+
+.low-task-row {
+    background-color: #4a95b815;
+}
+
+.medium-task-row {
+    background-color: #cfdd5415;
+}
+
+.high-task-row {
+    background-color: #e2585815;
 }
 
 .due-date {

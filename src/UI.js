@@ -19,41 +19,37 @@ export default class UI {
         const projects = this.dataStore.getAllProjects();
 
         projects.forEach(project => {
-            const projectElement = document.createElement("div");
-            projectElement.className = "sidebar__nav-item";
+            const projectTemplate = `
+                <div class="sidebar__nav-item">
+                    <a href="#" data-project-id="${project.getId()}">
+                        <img src="${project.getIcon()}" alt="Inbox Icon" class="sidebar__nav-item-icon">
+                        <span class="sidebar__nav-item-title">${project.getTitle()}</span>
+                    </a>
+                </div>
+            `;
+            this.projectContainer.insertAdjacentHTML(
+                "beforeend",
+                projectTemplate
+            );
+        });
 
-            const anchorElement = document.createElement("a");
-            anchorElement.href = "#";
-            anchorElement.dataset.projectId = project.getId();
-
-            const imgElement = document.createElement("img");
-            imgElement.src = project.getIcon();
-            imgElement.alt = "Inbox Icon";
-            imgElement.className = "sidebar__nav-item-icon";
-
-            const spanElement = document.createElement("span");
-            spanElement.className = "sidebar__nav-item-title";
-            spanElement.textContent = project.getTitle();
-
-            anchorElement.appendChild(imgElement);
-            anchorElement.appendChild(spanElement);
-
-            anchorElement.addEventListener("click", event => {
+        // Add event listeners to dynamically added project elements
+        this.projectContainer.querySelectorAll("a").forEach(anchor => {
+            anchor.addEventListener("click", event => {
                 event.preventDefault();
 
                 const projectId = event.currentTarget.dataset.projectId;
-                const project = this.dataStore.projects.find(project => {
-                    return project.id === projectId;
-                });
+                const project = this.dataStore.getProject(projectId);
 
-                document.getElementById(
-                    "project-information"
-                ).dataset.projectId = projectId;
-                this.renderTasks(project.tasks);
+                if (project) {
+                    document.getElementById(
+                        "project-information"
+                    ).dataset.projectId = projectId;
+                    this.renderTasks(project.tasks);
+                } else {
+                    console.error("Project not found.");
+                }
             });
-
-            projectElement.appendChild(anchorElement);
-            this.projectContainer.appendChild(projectElement);
         });
     }
 
@@ -61,19 +57,9 @@ export default class UI {
         this.taskContainer.innerHTML = "";
 
         // Render each task
-        tasks.forEach(task => {
-            const taskElement = document.createElement("div");
-            if (task.priority === "low") {
-                taskElement.classList.add("low-task-row");
-            } else if (task.priority === "medium") {
-                taskElement.classList.add("medium-task-row");
-            } else if (task.priority === "high") {
-                taskElement.classList.add("high-task-row");
-            } else {
-                taskElement.classList.add("neutral-task-row");
-            }
-            
-            taskElement.innerHTML = `
+        const taskTemplates = tasks
+            .map(task => `
+                <div class="${task.priority}-task-row" data-task-id="${task.getId()}">
                     <div class="task-details">
                         <input type="checkbox" class="task-checkbox">
                         <div>
@@ -81,24 +67,27 @@ export default class UI {
                             <p>${task.getDescription()}</p>
                             <p class="due-date">${task.getFormattedDueDate()}</p>
                         </div>
-                        <div>
-                            <button class="edit-button">
-                                <img
-                                    src="../src/assets/checked-icon.svg"
-                                    alt=""
-                                />
-                            </button>
-                            <button class="delete-button">
-                                <img
-                                    src="../src/assets/checked-icon.svg"
-                                    alt=""
-                                />
-                            </button>
-                        </div>
                     </div>
-                `;
-            this.taskContainer.appendChild(taskElement);
-        });
+                    <div class="task-buttons">
+                        <button class="edit-button">
+                            <img
+                                src="../src/assets/edit-icon.svg"
+                                alt=""
+                            />
+                        </button>
+                        <button class="delete-button">
+                            <img
+                                src="../src/assets/delete-icon.svg"
+                                alt=""
+                            />
+                        </button>
+                    </div>
+                </div>
+                `
+            )
+            .join("");
+
+        this.taskContainer.insertAdjacentHTML("beforeend", taskTemplates);
     }
 
     openAddTaskModal() {
@@ -169,16 +158,16 @@ export default class UI {
                 const projectId = document.getElementById("project-information")
                     .dataset.projectId;
 
-                const project = this.dataStore.findProject(projectId);
+                const project = this.dataStore.getProject(projectId);
 
                 if (project) {
                     project.addTask(newTask);
                     document.getElementById("add-task-form").reset();
+                    this.closeAddTaskModal();
+                    this.renderTasks(project.tasks);
                 } else {
                     console.error("Project not found.");
                 }
-                this.closeAddTaskModal();
-                this.renderTasks(project.tasks);
             }.bind(this)
         );
 
