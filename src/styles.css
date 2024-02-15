@@ -122,10 +122,10 @@ p {
     align-items: center;
     justify-content: space-between;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     padding: 15px;
     margin-bottom: 10px;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     cursor: pointer;
 
     &:hover .task-buttons {
@@ -136,18 +136,38 @@ p {
 
 .neutral-task-row {
     background-color: #fff;
+
+    &:hover {
+        background-color: #c4bcbc;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
 }
 
 .low-task-row {
     background-color: #4a95b815;
+
+    &:hover {
+        background-color: hsla(199, 44%, 51%, 0.15);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
 }
 
 .medium-task-row {
-    background-color: #cfdd5415;
+    background-color: hsla(66, 67%, 60%, 0.082);
+
+    &:hover {
+        background-color: hsla(66, 67%, 60%, 0.15);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
 }
 
 .high-task-row {
-    background-color: #e2585815;
+    background-color: hsla(0, 70%, 62%, 0.082);
+
+    &:hover {
+        background-color: hsla(0, 70%, 62%, 0.15);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
 }
 
 .due-date {

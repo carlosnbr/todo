@@ -55,39 +55,39 @@ export default class UI {
 
     renderTasks(tasks) {
         this.taskContainer.innerHTML = "";
-
-        // Render each task
-        const taskTemplates = tasks
-            .map(task => `
-                <div class="${task.priority}-task-row" data-task-id="${task.getId()}">
-                    <div class="task-details">
-                        <input type="checkbox" class="task-checkbox">
-                        <div>
-                            <h3>${task.getTitle()}</h3>
-                            <p>${task.getDescription()}</p>
-                            <p class="due-date">${task.getFormattedDueDate()}</p>
-                        </div>
-                    </div>
-                    <div class="task-buttons">
-                        <button class="edit-button">
-                            <img
-                                src="../src/assets/edit-icon.svg"
-                                alt=""
-                            />
-                        </button>
-                        <button class="delete-button">
-                            <img
-                                src="../src/assets/delete-icon.svg"
-                                alt=""
-                            />
-                        </button>
+    
+        // Render each task and attach event listener
+        tasks.forEach(task => {
+            const taskElement = document.createElement("div");
+            taskElement.classList.add(`${task.priority}-task-row`);
+            taskElement.dataset.taskId = task.getId();
+    
+            taskElement.innerHTML = `
+                <div class="task-details">
+                    <input type="checkbox" class="task-checkbox">
+                    <div>
+                        <h3>${task.getTitle()}</h3>
+                        <p>${task.getDescription()}</p>
+                        <p class="due-date">${task.getFormattedDueDate()}</p>
                     </div>
                 </div>
-                `
-            )
-            .join("");
-
-        this.taskContainer.insertAdjacentHTML("beforeend", taskTemplates);
+                <div class="task-buttons">
+                    <button class="edit-button">
+                        <img src="../src/assets/edit-icon.svg" alt="">
+                    </button>
+                    <button class="delete-button">
+                        <img src="../src/assets/delete-icon.svg" alt="">
+                    </button>
+                </div>
+            `;
+    
+            taskElement.addEventListener("click", () => {
+                // Do something when the task row is clicked
+                console.log("Task row clicked:", task.getId());
+            });
+    
+            this.taskContainer.appendChild(taskElement);
+        });
     }
 
     openAddTaskModal() {
