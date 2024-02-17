@@ -77,4 +77,33 @@ export default class DataStore {
 
         return upcomingTasks;
     }
+
+    getTaskById(taskId) {
+        for (const project of this.projects) {
+            for (const task of project.tasks) {
+                if (task.getId() === taskId) {
+                    return task;
+                }
+            }
+        }
+        return null;
+    }
+
+    updateTaskById(taskId, updatedTaskData) {
+        for (const project of this.projects) {
+            for (const task of project.tasks) {
+                if (task.getId() === taskId) {
+                    task.title = updatedTaskData.title;
+                    task.description = updatedTaskData.description;
+                    if (updatedTaskData.dueDate.trim() === "") {
+                        task.dueDate = null; // or any other default value you prefer
+                    } else {
+                        task.dueDate = new Date(updatedTaskData.dueDate + "T00:00:00");
+                    }
+                    
+                    task.priority = updatedTaskData.priority;
+                }
+            }
+        }
+    }
 }

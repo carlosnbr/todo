@@ -48,7 +48,6 @@ export default class Task {
             return `${months[monthIndex]} ${day} ${year}`;
 
         } else {
-            console.log(this.dueDate);
             return ""
         }
 

@@ -11,7 +11,6 @@ export default class UI {
 
     render() {
         this.renderProjects();
-        // this.renderTasks();
     }
 
     renderProjects() {
@@ -19,21 +18,28 @@ export default class UI {
         const projects = this.dataStore.getAllProjects();
 
         projects.forEach(project => {
-            const projectTemplate = `
-                <div class="sidebar__nav-item">
-                    <a href="#" data-project-id="${project.getId()}">
-                        <img src="${project.getIcon()}" alt="Inbox Icon" class="sidebar__nav-item-icon">
-                        <span class="sidebar__nav-item-title">${project.getTitle()}</span>
-                    </a>
-                </div>
-            `;
+            const projectTemplate = this.createProjectTemplate(project);
             this.projectContainer.insertAdjacentHTML(
                 "beforeend",
                 projectTemplate
             );
         });
 
-        // Add event listeners to dynamically added project elements
+        this.addProjectEventListeners();
+    }
+
+    createProjectTemplate(project) {
+        return `
+            <div class="sidebar__nav-item">
+                <a href="#" data-project-id="${project.getId()}">
+                    <img src="${project.getIcon()}" alt="Inbox Icon" class="sidebar__nav-item-icon">
+                    <span class="sidebar__nav-item-title">${project.getTitle()}</span>
+                </a>
+            </div>
+        `;
+    }
+
+    addProjectEventListeners() {
         this.projectContainer.querySelectorAll("a").forEach(anchor => {
             anchor.addEventListener("click", event => {
                 event.preventDefault();
@@ -55,157 +61,198 @@ export default class UI {
 
     renderTasks(tasks) {
         this.taskContainer.innerHTML = "";
-    
-        // Render each task and attach event listener
+
         tasks.forEach(task => {
-            const taskElement = document.createElement("div");
-            taskElement.classList.add(`${task.priority}-task-row`);
-            taskElement.dataset.taskId = task.getId();
-    
-            taskElement.innerHTML = `
-                <div class="task-details">
-                    <input type="checkbox" class="task-checkbox">
-                    <div>
-                        <h3>${task.getTitle()}</h3>
-                        <p>${task.getDescription()}</p>
-                        <p class="due-date">${task.getFormattedDueDate()}</p>
-                    </div>
-                </div>
-                <div class="task-buttons">
-                    <button class="edit-button">
-                        <img src="../src/assets/edit-icon.svg" alt="">
-                    </button>
-                    <button class="delete-button">
-                        <img src="../src/assets/delete-icon.svg" alt="">
-                    </button>
-                </div>
-            `;
-    
-            taskElement.addEventListener("click", () => {
-                // Do something when the task row is clicked
-                console.log("Task row clicked:", task.getId());
-            });
-    
+            const taskElement = this.createTaskElement(task);
             this.taskContainer.appendChild(taskElement);
         });
     }
 
+    createTaskElement(task) {
+        const taskElement = document.createElement("div");
+        taskElement.classList.add(`${task.priority}-task-row`);
+        taskElement.dataset.taskId = task.getId();
+
+        taskElement.innerHTML = `
+            <div class="task-details">
+                <input type="checkbox" class="task-checkbox">
+                <div>
+                    <h3>${task.getTitle()}</h3>
+                    <p>${task.getDescription()}</p>
+                    <p class="due-date">${task.getFormattedDueDate()}</p>
+                </div>
+            </div>
+            <div class="task-buttons">
+                <button class="edit-button">
+                    <img src="../src/assets/edit-icon.svg" alt="">
+                </button>
+                <button class="delete-button">
+                    <img src="../src/assets/delete-icon.svg" alt="">
+                </button>
+            </div>
+        `;
+
+        taskElement.addEventListener("click", event => {
+            this.handleTaskClick(event);
+        });
+
+        return taskElement;
+    }
+
+    handleTaskClick(event) {
+        const taskId = event.currentTarget.dataset.taskId;
+        const taskDetails = this.dataStore.getTaskById(taskId);
+
+        // Populate modal fields with task details for editing
+        document.getElementById("task-title").value = taskDetails.title;
+        document.getElementById("task-description").value =
+            taskDetails.description;
+        document.getElementById("task-due-date").value =
+            taskDetails.dueDate
+                ? taskDetails.dueDate.toISOString().split("T")[0]
+                : "";
+        document.getElementById("task-priority").value = taskDetails.priority;
+
+        // Change modal title and submit button text
+        document.getElementById("add-task-modal").querySelector("h2").textContent = "Edit Task";
+        document.getElementById("add-task-form").querySelector("button[type='submit']").textContent = "Save";
+        document.getElementById("add-task-form").dataset.taskId = taskId;
+
+        this.openAddTaskModal();
+    }
+
     openAddTaskModal() {
-        const modal = document.getElementById("add-task-modal");
-        modal.style.display = "flex";
+        this.toggleModalDisplay("add-task-modal", true);
     }
 
     closeAddTaskModal() {
-        const modal = document.getElementById("add-task-modal");
-        modal.style.display = "none";
+        this.toggleModalDisplay("add-task-modal", false);
     }
 
     openAddProjectModal() {
-        const modal = document.getElementById("add-project-modal");
-        modal.style.display = "flex";
+        this.toggleModalDisplay("add-project-modal", true);
     }
 
     closeAddProjectModal() {
-        const modal = document.getElementById("add-project-modal");
-        modal.style.display = "none";
+        this.toggleModalDisplay("add-project-modal", false);
+    }
+
+    toggleModalDisplay(modalId, display) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = display ? "flex" : "none";
     }
 
     bindEvents() {
         const addTaskButton = document.getElementById("add-task-button");
-        const taskModal = document.getElementById("add-task-modal");
-        const projectModal = document.getElementById("add-project-modal");
-        const taskModalCloseButton = document.getElementById(
-            "close-task-modal-button"
-        );
-        const projectModalCloseButton = document.getElementById(
-            "close-project-modal-button"
-        );
-
         addTaskButton.addEventListener("click", event => {
             this.openAddTaskModal();
         });
 
+        // Event listeners for closing modals
         window.addEventListener("click", event => {
-            if (
-                event.target === taskModal ||
-                event.target === taskModalCloseButton
-            ) {
-                this.closeAddTaskModal();
-                document.getElementById("add-task-form").reset();
-            } else if (
-                event.target === projectModal ||
-                event.target === projectModalCloseButton
-            ) {
-                this.closeAddProjectModal();
-                document.getElementById("add-project-form").reset();
-            }
+            this.handleModalClick(event);
         });
 
+        // Event listener for submitting new tasks
         const newTaskSubmit = document.getElementById("add-task-form");
-        newTaskSubmit.addEventListener(
-            "submit",
-            function (event) {
-                event.preventDefault();
+        newTaskSubmit.addEventListener("submit", event => {
+            this.handleTaskSubmission(event);
+        });
 
-                const title = document.getElementById("task-title").value;
-                const description =
-                    document.getElementById("task-description").value;
-                const dueDate = document.getElementById("task-due-date").value;
-                const priority = document.getElementById("task-priority").value;
-
-                const newTask = new Task(title, description, dueDate, priority);
-
-                const projectId = document.getElementById("project-information")
-                    .dataset.projectId;
-
-                const project = this.dataStore.getProject(projectId);
-
-                if (project) {
-                    project.addTask(newTask);
-                    document.getElementById("add-task-form").reset();
-                    this.closeAddTaskModal();
-                    this.renderTasks(project.tasks);
-                } else {
-                    console.error("Project not found.");
-                }
-            }.bind(this)
-        );
-
+        // Event listener for adding new projects
         const addProjectButton = document.getElementById("add-project-button");
         addProjectButton.addEventListener("click", event => {
             this.openAddProjectModal();
         });
 
         const newProjectSubmit = document.getElementById("add-project-form");
-        newProjectSubmit.addEventListener(
-            "submit",
-            function (event) {
-                event.preventDefault();
+        newProjectSubmit.addEventListener("submit", event => {
+            this.handleProjectSubmission(event);
+        });
 
-                const title = document.getElementById("project-title").value;
-                const newProject = new Project(title);
-
-                this.dataStore.addProject(newProject);
-                this.closeAddProjectModal();
-                this.renderTasks(newProject.tasks);
-                this.renderProjects();
-            }.bind(this)
-        );
-
+        // Event listeners for task filtering
         const todayFilterButton = document.getElementById("today-filter");
-        todayFilterButton.addEventListener(
-            "click",
-            function (event) {
-                this.renderTasks(this.dataStore.getTodayTasks());
-            }.bind(this)
-        );
+        todayFilterButton.addEventListener("click", event => {
+            this.renderTasks(this.dataStore.getTodayTasks());
+        });
 
         const upcomingFilterButton = document.getElementById("upcoming-filter");
-        upcomingFilterButton.addEventListener(
-            "click",
-            function (event) {
-                this.renderTasks(this.dataStore.getUpcomingTasks());
-            }.bind(this)
-        );
+        upcomingFilterButton.addEventListener("click", event => {
+            this.renderTasks(this.dataStore.getUpcomingTasks());
+        });
+    }
+
+    handleModalClick(event) {
+        const taskModal = document.getElementById("add-task-modal");
+        const taskModalCloseButton = document.getElementById("close-task-modal-button");
+        const projectModal = document.getElementById("add-project-modal");
+        const projectModalCloseButton = document.getElementById("close-project-modal-button");
+
+        if (
+            event.target === taskModal ||
+            event.target === taskModalCloseButton
+        ) {
+            this.closeAddTaskModal();
+            document.getElementById("add-task-form").reset();
+        } else if (
+            event.target === projectModal ||
+            event.target === projectModalCloseButton
+        ) {
+            this.closeAddProjectModal();
+            document.getElementById("add-project-form").reset();
+        }
+    }
+
+    handleTaskSubmission(event) {
+        event.preventDefault();
+
+        let taskId = event.currentTarget.dataset.taskId;
+
+        const title = document.getElementById("task-title").value;
+        const description = document.getElementById("task-description").value;
+        const dueDate = document.getElementById("task-due-date").value;
+        const priority = document.getElementById("task-priority").value;
+        const projectId = document.getElementById("project-information").dataset.projectId;
+        const project = this.dataStore.getProject(projectId);
+
+        if (taskId) {
+            try {
+                this.dataStore.updateTaskById(taskId, {
+                    title,
+                    description,
+                    dueDate,
+                    priority,
+                });
+                event.currentTarget.reset();
+                event.currentTarget.removeAttribute("data-task-id");
+                this.closeAddTaskModal();
+                this.renderTasks(project.tasks);
+            } catch (error) {
+                console.error("Failed to update task:", error.message);
+            }
+        } else {
+            const newTask = new Task(title, description, dueDate, priority);
+
+            if (project) {
+                project.addTask(newTask);
+                event.currentTarget.reset();
+                this.closeAddTaskModal();
+                this.renderTasks(project.tasks);
+            } else {
+                console.error("Project not found.");
+            }
+        }
+    }
+
+    handleProjectSubmission(event) {
+        event.preventDefault();
+
+        const title = document.getElementById("project-title").value;
+        const newProject = new Project(title);
+
+        this.dataStore.addProject(newProject);
+        this.closeAddProjectModal();
+        this.renderTasks(newProject.tasks);
+        this.renderProjects();
     }
 }
