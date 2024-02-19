@@ -92,11 +92,24 @@ export default class UI {
             </div>
         `;
 
+        const checkbox = taskElement.querySelector(".task-checkbox");
+        checkbox.addEventListener("click", event => {
+            const taskId = event.target.closest('.task-details').parentNode.dataset.taskId;
+            this.handleCheckboxClick(event, taskId);
+        });
+
         taskElement.addEventListener("click", event => {
             this.handleTaskClick(event);
         });
 
         return taskElement;
+    }
+
+    handleCheckboxClick(event, taskId) {
+        // Prevent event propagation to avoid triggering the task card click event
+        event.stopPropagation();
+
+        this.dataStore.toggleTaskCompletion(taskId);
     }
 
     handleTaskClick(event) {
@@ -107,15 +120,18 @@ export default class UI {
         document.getElementById("task-title").value = taskDetails.title;
         document.getElementById("task-description").value =
             taskDetails.description;
-        document.getElementById("task-due-date").value =
-            taskDetails.dueDate
-                ? taskDetails.dueDate.toISOString().split("T")[0]
-                : "";
+        document.getElementById("task-due-date").value = taskDetails.dueDate
+            ? taskDetails.dueDate.toISOString().split("T")[0]
+            : "";
         document.getElementById("task-priority").value = taskDetails.priority;
 
         // Change modal title and submit button text
-        document.getElementById("add-task-modal").querySelector("h2").textContent = "Edit Task";
-        document.getElementById("add-task-form").querySelector("button[type='submit']").textContent = "Save";
+        document
+            .getElementById("add-task-modal")
+            .querySelector("h2").textContent = "Edit Task";
+        document
+            .getElementById("add-task-form")
+            .querySelector("button[type='submit']").textContent = "Save";
         document.getElementById("add-task-form").dataset.taskId = taskId;
 
         this.openAddTaskModal();
@@ -184,9 +200,13 @@ export default class UI {
 
     handleModalClick(event) {
         const taskModal = document.getElementById("add-task-modal");
-        const taskModalCloseButton = document.getElementById("close-task-modal-button");
+        const taskModalCloseButton = document.getElementById(
+            "close-task-modal-button"
+        );
         const projectModal = document.getElementById("add-project-modal");
-        const projectModalCloseButton = document.getElementById("close-project-modal-button");
+        const projectModalCloseButton = document.getElementById(
+            "close-project-modal-button"
+        );
 
         if (
             event.target === taskModal ||
@@ -212,7 +232,8 @@ export default class UI {
         const description = document.getElementById("task-description").value;
         const dueDate = document.getElementById("task-due-date").value;
         const priority = document.getElementById("task-priority").value;
-        const projectId = document.getElementById("project-information").dataset.projectId;
+        const projectId = document.getElementById("project-information").dataset
+            .projectId;
         const project = this.dataStore.getProject(projectId);
 
         if (taskId) {

@@ -98,12 +98,34 @@ export default class DataStore {
                     if (updatedTaskData.dueDate.trim() === "") {
                         task.dueDate = null; // or any other default value you prefer
                     } else {
-                        task.dueDate = new Date(updatedTaskData.dueDate + "T00:00:00");
+                        task.dueDate = new Date(
+                            updatedTaskData.dueDate + "T00:00:00"
+                        );
                     }
-                    
+
                     task.priority = updatedTaskData.priority;
                 }
             }
+        }
+    }
+
+    toggleTaskCompletion(taskId) {
+        let found = false;
+
+        for (const project of this.projects) {
+            for (const task of project.tasks) {
+                if (task.getId() === taskId) {
+                    task.isCompleted = !task.isCompleted;
+                    found = true;
+                    console.log(task)
+                    break; // Exit loop once task is found and marked as completed
+                }
+            }
+            if (found) break; // Exit outer loop if task is found and marked as completed
+        }
+
+        if (!found) {
+            throw new Error("Task not found.");
         }
     }
 }
