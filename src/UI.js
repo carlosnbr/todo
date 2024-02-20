@@ -94,8 +94,16 @@ export default class UI {
 
         const checkbox = taskElement.querySelector(".task-checkbox");
         checkbox.addEventListener("click", event => {
-            const taskId = event.target.closest('.task-details').parentNode.dataset.taskId;
+            const taskId =
+                event.target.closest(".task-details").parentNode.dataset.taskId;
             this.handleCheckboxClick(event, taskId);
+        });
+
+        const deleteButton = taskElement.querySelector(".delete-button");
+        deleteButton.addEventListener("click", event => {
+            const taskId =
+                event.target.closest(".task-buttons").parentNode.dataset.taskId;
+            this.handleTaskDeleteClick(event, taskId);
         });
 
         taskElement.addEventListener("click", event => {
@@ -106,17 +114,22 @@ export default class UI {
     }
 
     handleCheckboxClick(event, taskId) {
-        // Prevent event propagation to avoid triggering the task card click event
         event.stopPropagation();
 
         this.dataStore.toggleTaskCompletion(taskId);
+    }
+
+    handleTaskDeleteClick(event, taskId) {
+        event.stopPropagation();
+
+        const updatedProject = this.dataStore.deleteTaskById(taskId);
+        this.renderTasks(updatedProject);
     }
 
     handleTaskClick(event) {
         const taskId = event.currentTarget.dataset.taskId;
         const taskDetails = this.dataStore.getTaskById(taskId);
 
-        // Populate modal fields with task details for editing
         document.getElementById("task-title").value = taskDetails.title;
         document.getElementById("task-description").value =
             taskDetails.description;
@@ -164,18 +177,15 @@ export default class UI {
             this.openAddTaskModal();
         });
 
-        // Event listeners for closing modals
         window.addEventListener("click", event => {
             this.handleModalClick(event);
         });
 
-        // Event listener for submitting new tasks
         const newTaskSubmit = document.getElementById("add-task-form");
         newTaskSubmit.addEventListener("submit", event => {
             this.handleTaskSubmission(event);
         });
 
-        // Event listener for adding new projects
         const addProjectButton = document.getElementById("add-project-button");
         addProjectButton.addEventListener("click", event => {
             this.openAddProjectModal();
@@ -186,7 +196,6 @@ export default class UI {
             this.handleProjectSubmission(event);
         });
 
-        // Event listeners for task filtering
         const todayFilterButton = document.getElementById("today-filter");
         todayFilterButton.addEventListener("click", event => {
             this.renderTasks(this.dataStore.getTodayTasks());

@@ -96,7 +96,7 @@ export default class DataStore {
                     task.title = updatedTaskData.title;
                     task.description = updatedTaskData.description;
                     if (updatedTaskData.dueDate.trim() === "") {
-                        task.dueDate = null; // or any other default value you prefer
+                        task.dueDate = null;
                     } else {
                         task.dueDate = new Date(
                             updatedTaskData.dueDate + "T00:00:00"
@@ -117,11 +117,32 @@ export default class DataStore {
                 if (task.getId() === taskId) {
                     task.isCompleted = !task.isCompleted;
                     found = true;
-                    console.log(task)
-                    break; // Exit loop once task is found and marked as completed
+                    break;
                 }
             }
-            if (found) break; // Exit outer loop if task is found and marked as completed
+            if (found) break;
+        }
+
+        if (!found) {
+            throw new Error("Task not found.");
+        }
+    }
+
+    deleteTaskById(taskId) {
+        let found = false;
+
+        for (const project of this.projects) {
+            for (const task of project.tasks) {
+                if (task.getId() === taskId) {
+                    const newArray = project.tasks.filter(task => {
+                        return task.getId() !== taskId;
+                    });
+                    found = true;
+                    project.tasks = newArray;
+                    return project.tasks;
+                }
+            }
+            if (found) break;
         }
 
         if (!found) {
