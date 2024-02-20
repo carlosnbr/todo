@@ -83,6 +83,17 @@ main {
     }
 }
 
+.projects-empty-state {
+    margin-top: 20px;
+    margin-left: 20px
+}
+
+.tasks-empty-state {
+    align-self: center;
+    justify-self: center;
+    margin-top: 30px
+}
+
 .delete-project-button img {
     max-width: 60%;
     max-height: 60%;
@@ -103,6 +114,8 @@ p {
 
 #task-list {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .task-details {

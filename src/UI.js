@@ -15,7 +15,13 @@ export default class UI {
 
     renderProjects() {
         this.projectContainer.innerHTML = "";
+
         const projects = this.dataStore.getAllProjects();
+        console.log(projects);
+
+        if (projects.length === 0) {
+            this.projectContainer.innerHTML = `<div class="projects-empty-state">You have no projects</div>`;
+        }
 
         projects.forEach(project => {
             const projectTemplate = this.createProjectTemplate(project);
@@ -80,6 +86,10 @@ export default class UI {
 
     renderTasks(tasks) {
         this.taskContainer.innerHTML = "";
+
+        if (tasks.length === 0) {
+            this.taskContainer.innerHTML = `<div class="tasks-empty-state">There are not tasks in this project</div>`;
+        }
 
         tasks.forEach(task => {
             const taskElement = this.createTaskElement(task);
