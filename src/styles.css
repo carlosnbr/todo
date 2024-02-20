@@ -53,7 +53,6 @@ main {
     text-decoration: none;
     color: inherit;
     flex: 1;
-
 }
 
 .sidebar__nav-item-icon {
@@ -64,6 +63,30 @@ main {
 .sidebar__nav-item-title {
     margin-left: 10px;
 }
+
+.delete-project-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-radius: 15px;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        background-color: #d8d6d6d5;
+        opacity: 1;
+    }
+}
+
+.delete-project-button img {
+    max-width: 60%;
+    max-height: 60%;
+  }
 
 #filters-section {
     padding-bottom: 15px;

@@ -19,10 +19,26 @@ export default class UI {
 
         projects.forEach(project => {
             const projectTemplate = this.createProjectTemplate(project);
-            this.projectContainer.insertAdjacentHTML(
-                "beforeend",
-                projectTemplate
+
+            // Create a document fragment to hold the template HTML
+            const fragment = document.createDocumentFragment();
+            const div = document.createElement("div");
+            div.innerHTML = projectTemplate;
+            fragment.appendChild(div);
+
+            // Query the delete button within the document fragment
+            const projectDeleteButton = fragment.querySelector(
+                ".delete-project-button"
             );
+
+            // Add event listener to the delete button
+            projectDeleteButton.addEventListener("click", event => {
+                const projectId = project.getId();
+                this.handleProjectDeleteClick(event, projectId);
+            });
+
+            // Append the document fragment to the project container
+            this.projectContainer.appendChild(fragment);
         });
 
         this.addProjectEventListeners();
@@ -35,6 +51,9 @@ export default class UI {
                     <img src="${project.getIcon()}" alt="Inbox Icon" class="sidebar__nav-item-icon">
                     <span class="sidebar__nav-item-title">${project.getTitle()}</span>
                 </a>
+                <button class="delete-project-button">
+                    <img src="../src/assets/delete-icon.svg">
+                </button>
             </div>
         `;
     }
@@ -148,6 +167,13 @@ export default class UI {
         document.getElementById("add-task-form").dataset.taskId = taskId;
 
         this.openAddTaskModal();
+    }
+
+    handleProjectDeleteClick(event, projectId) {
+        event.stopPropagation();
+
+        const newProjectsList = this.dataStore.deleteProjectById(projectId);
+        this.renderProjects(newProjectsList);
     }
 
     openAddTaskModal() {

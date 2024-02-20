@@ -149,4 +149,12 @@ export default class DataStore {
             throw new Error("Task not found.");
         }
     }
+
+    deleteProjectById(projectId) {
+        const newProjects = this.projects.filter(project => {
+            return project.getId() !== projectId;
+        })
+        this.projects = newProjects;
+        return newProjects;
+    }
 }
