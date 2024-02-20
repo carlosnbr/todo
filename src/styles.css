@@ -45,6 +45,10 @@ main {
     &:hover {
         background-color: #8f67bd2d;
     }
+
+    &:hover .delete-project-button{
+        opacity: 1;
+    }
 }
 
 .sidebar__nav-item a {
@@ -79,7 +83,6 @@ main {
 
     &:hover {
         background-color: #d8d6d6d5;
-        opacity: 1;
     }
 }
 

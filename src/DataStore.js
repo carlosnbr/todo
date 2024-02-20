@@ -1,9 +1,36 @@
 import Project from "./Project.js";
-import defaultProjectIcon from "./assets/default-project-icon.svg";
+import Task from "./Task.js"
 
 export default class DataStore {
     constructor() {
-        this.projects = [];
+        this.projects = this.loadProjectsFromLocalStorage() || [];
+    }
+
+    saveProjectsToLocalStorage() {
+        localStorage.setItem('projects', JSON.stringify(this.projects));
+    }
+
+    loadProjectsFromLocalStorage() {
+        const projectsJson = localStorage.getItem('projects');
+        if (projectsJson) {
+            const projectsData = JSON.parse(projectsJson);
+            return projectsData.map(projectData => {
+                const project = new Project(projectData.title);
+                project.id = projectData.id;
+                project.icon = projectData.icon;
+                project.tasks = projectData.tasks.map(taskData => {
+                    console.log(taskData)
+                    const task = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
+                    task.id = taskData.id;
+                    task.isCompleted = taskData.isCompleted;
+                    return task;
+                });
+                console.log()
+                return project;
+            });
+        } else {
+            return null;
+        }
     }
 
     addProject(project) {
@@ -11,12 +38,14 @@ export default class DataStore {
             throw new Error("addProject expects an instance of Project.");
         }
         this.projects.push(project);
+        this.saveProjectsToLocalStorage();
     }
 
     removeProject(projectId) {
         this.projects = this.projects.filter(
             project => project.getId() !== projectId
         );
+        this.saveProjectsToLocalStorage()
     }
 
     getProject(projectId) {
@@ -31,6 +60,7 @@ export default class DataStore {
         } else {
             throw new Error("Project not found.");
         }
+        this.saveProjectsToLocalStorage();
     }
 
     getAllProjects() {
@@ -104,9 +134,20 @@ export default class DataStore {
                     }
 
                     task.priority = updatedTaskData.priority;
+                    this.saveProjectsToLocalStorage();
                 }
             }
         }
+    }
+
+    addTask(projectId, task) {
+        const project = this.getProject(projectId);
+        if (!project) {
+            throw new Error("Project not found.");
+        }
+        project.addTask(task);
+        console.log(task)
+        this.saveProjectsToLocalStorage();
     }
 
     toggleTaskCompletion(taskId) {
@@ -117,6 +158,7 @@ export default class DataStore {
                 if (task.getId() === taskId) {
                     task.isCompleted = !task.isCompleted;
                     found = true;
+                    this.saveProjectsToLocalStorage();
                     break;
                 }
             }
@@ -139,6 +181,7 @@ export default class DataStore {
                     });
                     found = true;
                     project.tasks = newArray;
+                    this.saveProjectsToLocalStorage();
                     return project.tasks;
                 }
             }
@@ -155,6 +198,7 @@ export default class DataStore {
             return project.getId() !== projectId;
         })
         this.projects = newProjects;
+        this.saveProjectsToLocalStorage();
         return newProjects;
     }
 }

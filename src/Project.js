@@ -53,20 +53,4 @@ export default class Project {
     getPendingTasks() {
         return this.tasks.filter(task => !task.isCompleted);
     }
-
-    updateTask(taskId, updatedProperties = {}) {
-        const task = this.findTask(taskId);
-        if (!task) {
-            throw new Error("Task not found.");
-        }
-    
-        Object.entries(updatedProperties).forEach(([key, value]) => {
-            const setterName = `set${key.charAt(0).toUpperCase() + key.slice(1)}`;
-            if (typeof task[setterName] === 'function') {
-                task[setterName](value);
-            } else {
-                throw new Error(`Setter not found for ${key}`);
-            }
-        });
-    }
 }

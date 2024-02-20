@@ -88,7 +88,7 @@ export default class UI {
         this.taskContainer.innerHTML = "";
 
         if (tasks.length === 0) {
-            this.taskContainer.innerHTML = `<div class="tasks-empty-state">There are not tasks in this project</div>`;
+            this.taskContainer.innerHTML = `<div class="tasks-empty-state">Nothing to see here.</div>`;
         }
 
         tasks.forEach(task => {
@@ -299,8 +299,8 @@ export default class UI {
         } else {
             const newTask = new Task(title, description, dueDate, priority);
 
-            if (project) {
-                project.addTask(newTask);
+            if (projectId) {
+                this.dataStore.addTask(projectId, newTask)
                 event.currentTarget.reset();
                 this.closeAddTaskModal();
                 this.renderTasks(project.tasks);

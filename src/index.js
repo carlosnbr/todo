@@ -35,9 +35,9 @@ const task2 = new Task(
 );
 project.addTask(task2);
 
-dataStore.addProject(project);
-dataStore.addProject(project1);
-dataStore.addProject(project2);
+// dataStore.addProject(project);
+// dataStore.addProject(project1);
+// dataStore.addProject(project2);
 
 // Render UI
 ui.render();

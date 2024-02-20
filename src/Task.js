@@ -11,8 +11,8 @@ export default class Task {
     constructor(title, description, dueDate = "", priority = "low") {
         this.title = title;
         this.description = description;
-        if (dueDate.trim() === "") {
-            this.dueDate = null; // or any other default value you prefer
+        if (!dueDate || dueDate.trim() === "") {
+            this.dueDate = null;
         } else {
             this.dueDate = new Date(dueDate + "T00:00:00");
         }
@@ -38,19 +38,16 @@ export default class Task {
     getFormattedDueDate() {
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-        if (this.dueDate) {
-            // console.log(this.dueDate);
+    
+        if (this.dueDate instanceof Date && !isNaN(this.dueDate)) {
             const monthIndex = this.dueDate.getMonth();
             const day = this.dueDate.getDate();
             const year = this.dueDate.getFullYear();
-
+    
             return `${months[monthIndex]} ${day} ${year}`;
-
         } else {
-            return ""
+            return "Este es el";
         }
-
     }
 
     getPriority() {
