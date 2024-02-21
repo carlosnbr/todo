@@ -14,7 +14,15 @@ export default class Task {
         if (!dueDate || dueDate.trim() === "") {
             this.dueDate = null;
         } else {
-            this.dueDate = new Date(dueDate + "T00:00:00");
+            if (dueDate.includes("T")) {
+                // If in ISO format, extract only the date portion
+                const formattedDueDate = new Date(dueDate)
+                    .toISOString()
+                    .slice(0, 10);
+                this.dueDate = new Date(formattedDueDate + "T00:00:00");
+            } else {
+                this.dueDate = new Date(dueDate + "T00:00:00");
+            }
         }
         this.priority = priority;
     }
@@ -36,17 +44,29 @@ export default class Task {
     }
 
     getFormattedDueDate() {
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+        const months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ];
+
         if (this.dueDate instanceof Date && !isNaN(this.dueDate)) {
             const monthIndex = this.dueDate.getMonth();
             const day = this.dueDate.getDate();
             const year = this.dueDate.getFullYear();
-    
+
             return `${months[monthIndex]} ${day} ${year}`;
         } else {
-            return "Este es el";
+            return "";
         }
     }
 
@@ -71,11 +91,13 @@ export default class Task {
     }
 
     setPriority(newPriority) {
-        const validPriorities = ['high', 'medium', 'low'];
+        const validPriorities = ["high", "medium", "low"];
         if (validPriorities.includes(newPriority)) {
             this.priority = newPriority;
         } else {
-            throw new Error("Invalid priority. Valid options are 'high', 'medium', or 'low'.");
+            throw new Error(
+                "Invalid priority. Valid options are 'high', 'medium', or 'low'."
+            );
         }
     }
 

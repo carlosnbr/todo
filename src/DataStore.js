@@ -1,5 +1,5 @@
 import Project from "./Project.js";
-import Task from "./Task.js"
+import Task from "./Task.js";
 
 export default class DataStore {
     constructor() {
@@ -7,11 +7,11 @@ export default class DataStore {
     }
 
     saveProjectsToLocalStorage() {
-        localStorage.setItem('projects', JSON.stringify(this.projects));
+        localStorage.setItem("projects", JSON.stringify(this.projects));
     }
 
     loadProjectsFromLocalStorage() {
-        const projectsJson = localStorage.getItem('projects');
+        const projectsJson = localStorage.getItem("projects");
         if (projectsJson) {
             const projectsData = JSON.parse(projectsJson);
             return projectsData.map(projectData => {
@@ -19,13 +19,16 @@ export default class DataStore {
                 project.id = projectData.id;
                 project.icon = projectData.icon;
                 project.tasks = projectData.tasks.map(taskData => {
-                    console.log(taskData)
-                    const task = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
+                    const task = new Task(
+                        taskData.title,
+                        taskData.description,
+                        taskData.dueDate,
+                        taskData.priority
+                    );
                     task.id = taskData.id;
                     task.isCompleted = taskData.isCompleted;
                     return task;
                 });
-                console.log()
                 return project;
             });
         } else {
@@ -45,7 +48,7 @@ export default class DataStore {
         this.projects = this.projects.filter(
             project => project.getId() !== projectId
         );
-        this.saveProjectsToLocalStorage()
+        this.saveProjectsToLocalStorage();
     }
 
     getProject(projectId) {
@@ -75,12 +78,14 @@ export default class DataStore {
         this.projects.forEach(project => {
             project.getAllTasks().forEach(task => {
                 const taskDueDate = task.dueDate;
-                if (
-                    taskDueDate.getDate() === today.getDate() &&
-                    taskDueDate.getMonth() === today.getMonth() &&
-                    taskDueDate.getFullYear() === today.getFullYear()
-                ) {
-                    todayTasks.push(task);
+                if (taskDueDate) {
+                    if (
+                        taskDueDate.getDate() === today.getDate() &&
+                        taskDueDate.getMonth() === today.getMonth() &&
+                        taskDueDate.getFullYear() === today.getFullYear()
+                    ) {
+                        todayTasks.push(task);
+                    }
                 }
             });
         });
@@ -146,7 +151,7 @@ export default class DataStore {
             throw new Error("Project not found.");
         }
         project.addTask(task);
-        console.log(task)
+        console.log(task);
         this.saveProjectsToLocalStorage();
     }
 
@@ -182,7 +187,7 @@ export default class DataStore {
                     found = true;
                     project.tasks = newArray;
                     this.saveProjectsToLocalStorage();
-                    return project.tasks;
+                    return project;
                 }
             }
             if (found) break;
@@ -196,7 +201,7 @@ export default class DataStore {
     deleteProjectById(projectId) {
         const newProjects = this.projects.filter(project => {
             return project.getId() !== projectId;
-        })
+        });
         this.projects = newProjects;
         this.saveProjectsToLocalStorage();
         return newProjects;
